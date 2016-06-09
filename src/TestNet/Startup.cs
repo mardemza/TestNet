@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using TestNet.Data;
 using TestNet.Models;
 using TestNet.Services;
+using TestNet.Web.Services;
 
 namespace TestNet
 {
@@ -52,6 +53,7 @@ namespace TestNet
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IJobService, JobService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

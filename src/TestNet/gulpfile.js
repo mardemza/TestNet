@@ -9,6 +9,10 @@ var gulp = require("gulp"),
 
 var webroot = "./wwwroot/";
 
+var itemsToCopy = {
+    './node_modules/angular/angular*.js': webroot + 'lib'
+}
+
 var paths = {
     js: webroot + "js/**/*.js",
     minJs: webroot + "js/**/*.min.js",
@@ -17,6 +21,7 @@ var paths = {
     concatJsDest: webroot + "js/site.min.js",
     concatCssDest: webroot + "css/site.min.css"
 };
+
 
 gulp.task("clean:js", function (cb) {
     rimraf(paths.concatJsDest, cb);
@@ -43,3 +48,12 @@ gulp.task("min:css", function () {
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+
+
+gulp.task('copy', function () {
+    for (var src in itemsToCopy) {
+        if (!itemsToCopy.hasOwnProperty(src)) continue;
+        gulp.src(src)
+        .pipe(gulp.dest(itemsToCopy[src]));
+    }
+});

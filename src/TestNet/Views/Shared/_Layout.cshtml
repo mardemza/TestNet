@@ -34,6 +34,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-controller="Projects" asp-action="Index">Proyectos</a></li>
+                        <li><a asp-controller="Home" asp-action="Jobs">Tareas</a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -51,6 +52,7 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/angular.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -61,6 +63,10 @@
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"
+                asp-fallback-src="~/lib/angular.min.js"
+                asp-fallback-test="window.angular">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
