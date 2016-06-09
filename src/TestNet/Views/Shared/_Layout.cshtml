@@ -33,8 +33,7 @@
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-controller="Projects" asp-action="Index">Proyectos</a></li>
-                        <li><a asp-controller="Home" asp-action="Jobs">Tareas</a></li>
+                        <li><a asp-controller="Projects" asp-action="Index">Projects</a></li>                        
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

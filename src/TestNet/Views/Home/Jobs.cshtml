@@ -1,98 +1,106 @@
 @model IEnumerable<TestNet.Web.Models.Domain.Job>
 
 @{
-    ViewData["Title"] = "Jobs";
+    ViewData["Title"] = "Tasks";
 }
 
 <div ng-app="app">
-    <h2>Jobs</h2>
 
-    <form action="/Projects/Create" method="post">
-        <div class="form-horizontal center-block">
+    <div ng-controller="taskController as vm">
+        <h2>Tasks ({{vm.tasks.length}})</h2>
 
-            <div class="text-danger"></div>
+        <form ng-submit="vm.addOrUpdate()" name="formReg">
+            <div class="form-horizontal center-block">
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="Name">Project Name</label>
-                <div class="col-md-8">
-                    <input class="form-control" type="text" id="Name" name="Name" value="" />
-                    <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="Description">Description</label>
-                <div class="col-md-8">
-                    <textarea class="form-control" rows="10" id="Description" name="Description"></textarea>
-                    <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true" />
-                </div>
-            </div>
+                <div class="text-danger"></div>
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label class="col-md-5 control-label" for="Start">Start</label>
-                    <div class="col-md-7">
-                        <input class="form-control" type="date" data-val="true" data-val-required="The Start field is required." id="Start" name="Start" value="2016-06-08" />
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Start" data-valmsg-replace="true" />
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="col-md-2 control-label" for="End">End</label>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Name">Task Name</label>
                     <div class="col-md-8">
-                        <input class="form-control" type="date" data-val="true" data-val-required="The End field is required." id="End" name="End" value="2016-06-09" />
-                        <span class="text-danger field-validation-valid" data-valmsg-for="End" data-valmsg-replace="true" />
+                        <input class="form-control" type="text" id="Name" name="Name" ng-model="vm.taskNewOrEdit.Title" ng-required="true" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Description">Description</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" rows="10" id="Description" name="Description" ng-model="vm.taskNewOrEdit.Description" ng-required="true" ></textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-5 control-label" for="Start">Start</label>
+                        <div class="col-md-7">
+                            <input class="form-control" type="date" data-val="true" data-val-required="The Start field is required." id="Start" name="Start" ng-model="vm.taskNewOrEdit.start" ng-required="true"  />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Start" data-valmsg-replace="true" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-md-2 control-label" for="End">End</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="date" data-val="true" data-val-required="The End field is required." id="End" name="End" ng-model="vm.taskNewOrEdit.end" ng-required="true" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="End" data-valmsg-replace="true" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group" ng-show="vm.new">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Add new Task" class="btn btn-default" ng-disabled="formReg.$invalid" />
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="!vm.new">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Save" class="btn btn-default" ng-disabled="formReg.$invalid" />
                     </div>
                 </div>
             </div>
-
-
-            <div class="form-group">
-                <div class="col-md-offset-4 col-md-8">
-                    <input type="submit" value="Add new Project" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8K0jf_IiqJVMvTsxA4JpGZmcV9SpmxFV2FxDxADV8wrFo5c5KqiZuWJRGo2cw57aEolsN_DrsD7QZZPTXh8Mcib5aDAo2Ul9Nr_Mtx2SrL8QeacbKpdMkrPiZsqhawVzzxcs7-Jcx6TEzERzGfdAeDKDF6YXVR8BqN5GATJx6m_8vbGMAZFBeyM3KWSKaVTE1Q" />
-    </form>
+            
+        </form>
 
 
 
 
-    <h2>Proyectos</h2>
+        <h2>Tasks</h2>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Task Name
-                </th>
-                <th>
-                    User
-                </th>
-                <th>
-                    Created
-                </th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    Project 1
-                </td>
-                <td>
-                    8/6/2016 6:57:21 p. m.
-                </td>
-                <td>
-                    0
-                </td>
-                <td>
-                    <a href="/Projects/Edit/1">Edit</a> |
-                    <a href="/Projects/Details/1">Details</a> |
-                    <a href="/Projects/Delete/1">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Task Name
+                    </th>
+                    <th>
+                        User
+                    </th>
+                    <th>
+                        Created
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in vm.tasks track by $index">
+                    <td>
+                        {{task.Title}}
+                    </td>
+                    <td>
+                        {{task.Created}}
+                    </td>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        <a ng-click="vm.get(task.Id)">Edit</a> |
+                        <a ng-click="vm.get(task.Id)">Details</a> |
+                        <a ng-click="vm.delete(task.Id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
