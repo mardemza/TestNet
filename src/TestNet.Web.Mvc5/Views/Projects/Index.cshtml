@@ -1,0 +1,107 @@
+﻿@using TestNet.Web.Mvc5.Extentions
+@model IEnumerable<TestNet.Web.Mvc5.Models.Domain.Project>
+
+
+@{
+    ViewBag.Title = "Index";
+    var modelProject = new TestNet.Web.Mvc5.Models.Domain.Project()
+    {
+        CreatedUserId = User.GetUserId()
+    };
+}
+
+<br />
+<br />
+
+@Html.Partial("Create", modelProject)
+
+<h2>Proyectos</h2>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nombre de Proyecto
+            </th>
+
+            <th>
+                Usuarios trabajando
+            </th>
+            <th>
+                Creado
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @item.UsersAccount
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @if (item.CreatedUserId == User.GetUserId())
+                    {
+                        <text>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id }) |                            
+                            <a href="/Jobs/@item.Id" >Tareas (Angular)</a>
+                        </text>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+<br />
+<br />
+
+<h2>Tareas Asignadas</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Nombre de Proyecto
+        </th>
+
+        <th>
+            Tareas que tienes aquí
+        </th>        
+        <th>
+            Acciones
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.ProjectWithTasksAsigned as IEnumerable<TestNet.Web.Mvc5.Models.Domain.Project>)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>            
+            <td>
+                @item.Jobs.Count(x => x.AsignedUserId == User.GetUserId()) / @item.Jobs.Count()
+            </td>
+            <td>
+                @if (item.CreatedUserId == User.GetUserId())
+                {
+                    <text>
+                        <a href="/Jobs/@item.Id">Ir a las Tareas (Angular)</a>
+                    </text>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

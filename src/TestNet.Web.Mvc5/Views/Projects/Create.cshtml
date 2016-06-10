@@ -1,0 +1,60 @@
+﻿@model TestNet.Web.Mvc5.Models.Domain.Project
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm("Create","Projects")) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        <h3>Nuevo</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-4" for="Name">Nombre del Proyecto</label>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4" for="Description">Descripci&oacute;n</label>
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4" for="Start">Inicio</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="El campo inicio debe ser una fecha." data-val-required="El campo inicio es obligatorio." id="Start" name="Start" value="@Model.Start.ToString("dd/MM/yyyy")">               
+                @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4" for="End">Fin</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="El campo fin debe ser una fecha." data-val-required="El campo fin es obligatorio." id="End" name="End" value="@Model.End.ToString("dd/MM/yyyy")">               
+                @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+        
+        @Html.HiddenFor(model => model.CreatedUserId)
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Crear Proyecto" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")    
+}

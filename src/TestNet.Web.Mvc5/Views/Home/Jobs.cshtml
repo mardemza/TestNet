@@ -1,0 +1,126 @@
+﻿@using TestNet.Web.Mvc5.Extentions
+@{
+    ViewData["Title"] = "Tareas";
+}
+
+<div ng-app="app">
+
+    <div ng-controller="taskController as vm">
+        <h2>Tareas ({{vm.tasks.length}})</h2>
+
+        <form ng-submit="vm.addOrUpdate()" name="formReg">
+            <div class="form-horizontal center-block">
+
+                <div class="text-danger"></div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Name">Nombre de Tarea</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" id="Name" name="Name" ng-model="vm.taskNewOrEdit.title" ng-required="true" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Description">Descripci&oacute;n</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" rows="10" id="Description" name="Description" ng-model="vm.taskNewOrEdit.description" ng-required="true"></textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Name">Asignado a</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="vm.taskNewOrEdit.asignedUserId" >
+                            <option ng-repeat="us in vm.users" value="{{us.id}}">{{us.email}}</option>
+                        </select>                        
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-5 control-label" for="Start">Inicio</label>
+                        <div class="col-md-7">
+                            <input class="form-control" data-val="true" data-val-required="The Start field is required." id="Start" name="Start" ng-model="vm.taskNewOrEdit.start" ng-required="true" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Start" data-valmsg-replace="true" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-md-2 control-label" for="End">Fin</label>
+                        <div class="col-md-8">
+                            <input class="form-control" data-val="true" data-val-required="The End field is required." id="End" name="End" ng-model="vm.taskNewOrEdit.end" ng-required="true" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="End" data-valmsg-replace="true" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group" ng-show="vm.new">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Agregar tarea" class="btn btn-success" ng-disabled="formReg.$invalid" />
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="vm.createdUserId == vm.taskNewOrEdit.createdUserId  && !vm.new">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Guardar tarea" class="btn btn-success" ng-disabled="formReg.$invalid" /> 
+                        <input type="submit" value="Cancelar" class="btn btn-danger" ng-click="vm.cancel()" />
+                    </div>                   
+                </div>
+            </div>
+
+        </form>
+
+
+
+
+        <h2>Tareas</h2>
+
+        <table class="table" ng-show="vm.tasks.length > 0">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre de Tarea
+                    </th>
+                    <th>
+                        Creado por
+                    </th>
+                    <th>
+                        Asignado a
+                    </th>
+                    <th>
+                        Creado el
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in vm.tasks track by $index">
+                    <td>
+                        {{task.title}}
+                    </td>
+                    <td>
+                        {{task.createdUserEmail}}
+                    </td>
+                    <td>
+                        {{task.asignedUserEmail}}
+                    </td>
+                    <td>
+                        {{task.created | date:'dd/MM/yyyy hh:mm'}}
+                    </td>
+                    <td>
+                        <a ng-click="vm.get(task.id)" ng-show="vm.createdUserId == task.createdUserId || task.enabledEditJob">Editar</a> |
+                        <a ng-click="vm.get(task.id)" ng-show="vm.createdUserId == task.createdUserId || task.enabledSeeJob">Detalles</a> |
+                        <a ng-click="vm.delete(task.id)" ng-show="vm.createdUserId == task.createdUserId || task.enabledDeleteJob">Borrar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>var CreatedUserId = '@User.GetUserId()';</script>
+    <script src="/Scripts/App/main.js"></script>
+}
