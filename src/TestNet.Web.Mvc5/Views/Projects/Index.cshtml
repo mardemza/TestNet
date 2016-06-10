@@ -54,8 +54,8 @@
                         <text>
                             @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
                             @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id }) |                            
-                            <a href="/Jobs/@item.Id" >Tareas (Angular)</a>
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id }) |
+                            <a href="/Jobs/@item.Id">Tareas (Angular)</a>
                         </text>
                     }
                 </td>
@@ -78,7 +78,7 @@
 
         <th>
             Tareas que tienes aquí
-        </th>        
+        </th>
         <th>
             Acciones
         </th>
@@ -89,17 +89,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>            
+            </td>
             <td>
                 @item.Jobs.Count(x => x.AsignedUserId == User.GetUserId()) / @item.Jobs.Count()
             </td>
             <td>
-                @if (item.CreatedUserId == User.GetUserId())
-                {
-                    <text>
-                        <a href="/Jobs/@item.Id">Ir a las Tareas (Angular)</a>
-                    </text>
-                }
+                <a href="/Jobs/@item.Id">Ir a las Tareas (Angular)</a>
             </td>
         </tr>
     }
