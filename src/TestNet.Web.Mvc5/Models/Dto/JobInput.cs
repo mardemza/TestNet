@@ -23,6 +23,7 @@ namespace TestNet.Web.Mvc5.Models.ViewModels
         #region Properties
 
         public long Id { get; set; }
+        public string Description { get; set; }
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

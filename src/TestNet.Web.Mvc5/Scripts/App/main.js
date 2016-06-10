@@ -34,7 +34,7 @@
 
         // -- Update
         taskFactory.update = function (task) {
-            return $http.put(urlBase, task);
+            return $http.put(urlBase + '/' + task.id, task);
         };
 
         // -- Delete
